@@ -3,6 +3,7 @@ import sys
 from sys import *
 from docopt import docopt
 from glob import glob
+from lexer import *
 
 
 usage = '''
@@ -16,7 +17,7 @@ Usage:
 
 
 def open_file(source):
-    if source in glob("*.lang"):
+    if source in glob("lang/*.lang"):
         source_code = open(source, 'r').read()
         return source_code
     else:
@@ -30,7 +31,7 @@ if(len(sys.argv) == 1):
 else:
     source = argv[1]
     data = open_file(source)
-    print(data)
-
+    #print(data)
+    lex(data)
 
 

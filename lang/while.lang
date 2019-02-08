@@ -1,0 +1,7 @@
+?? while loop
+
+wrap l as 1
+.6 | k eq 1 |
+-- vomit l
+   exit() --
+

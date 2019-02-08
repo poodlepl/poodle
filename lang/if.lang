@@ -1,0 +1,7 @@
+?? if condition
+
+wrap i as 0
+.2 | i let 10 |
+-- vomit i
+   i pp --
+
