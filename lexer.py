@@ -1,35 +1,27 @@
 import re
-from wordlist import keywords, relop
+from wordlist import switch
 
 
 def lex(filecontents):
-    '''
-    tok = ""
-    state = 0
-    string = ""
-    identifier = []
-    content = list(filecontents)
-    for char in content:
-        tok += char
-        print(tok)
-
-    tok = ""
-    '''
-    
-    switch={
-		"??" : "Comment",
-		".5" : "For loop",
-		"wrap" : "keyword",
-		"as" : "keyword",
-		"let" : "keyword",
-		"pp" : "incrementer"
-	}
-	num=[0,1,2,3,4,5,6,7,8,9]
+	'''
+	    tok = ""
+	    state = 0
+	    string = ""
+	    identifier = []
+	    content = list(filecontents)
+	    for char in content:
+	        tok += char
+	        print(tok)
+	
+	    tok = ""
+	'''
+	#Lexer for FOR LOOP
 	data=switch.keys()
 	words = filecontents.split('\n')
 	print(words)
 	for w in words:
 		c=0
+		hyp=0
 		tokens=w.split(" ")
 		for tok in tokens:
 			#print(tok)
@@ -40,14 +32,17 @@ def lex(filecontents):
 				if tok=='??':
 					print("Comment : ",w[2:])
 					c=1
-
-    
-    '''
-    iterate through em all and process it.
-    take raw string
-    if there is extra char, check. isAlpha() and all.
-    '''
-		
+			elif tok.isdigit():
+					print("Token: ",tok,"  Category: Numeral")
+			elif tok=="--":
+				if(hyp==0):
+					print("Token:",tok,"  Category: Beginning of vomit")
+					hyp=1
+				else:
+					print("Token:",tok,"  Category:End of vomit")	
+			else:
+				if tok.isalpha():
+					print("Token:",tok,"  Category: Identifier")	
 
 #print(keywords)
 #print(relop)
