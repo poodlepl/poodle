@@ -1,16 +1,10 @@
-keywords = [
-    'vomit',
-    'wrap',
-    'as',
-    'while',
-    'exit',
-    '.2',
-    '.3',
-    '.4',
-    '.5',
-    '.6'
-]
+switch={
+        "??" : "COMMENT",
+        ".5" : "FOR",
+        "wrap" : "KEYWORD",
+        "as" : "KEYWORD",
+        "let" : "KEYWORD",
+        "pp" : "INCREMENT",
+        ".2" : "IF"
+        }
 
-relop = [
-    'pp'
-]
