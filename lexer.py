@@ -3,18 +3,6 @@ from wordlist import switch
 
 
 def lex(filecontents):
-	'''
-	    tok = ""
-	    state = 0
-	    string = ""
-	    identifier = []
-	    content = list(filecontents)
-	    for char in content:
-	        tok += char
-	        print(tok)
-	
-	    tok = ""
-	'''
 	#Lexer for FOR LOOP
 	data=switch.keys()
 	words = filecontents.split('\n')
