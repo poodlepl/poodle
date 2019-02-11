@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-import sys
-from sys import *
+#import sys
+#from sys import *
 from docopt import docopt
 from glob import glob
 from lexer import *
