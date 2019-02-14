@@ -1,0 +1,41 @@
+
+vomit "hello world"
+
+
+?? this is a single line comment
+
+
+?? if condition
+
+wrap i as 0
+.2 | i let 10 |
+-- vomit i
+   i pp --
+
+
+?? if-else-if-else
+
+wrap j as 0
+.2 | j let 10 |
+-- vomit i
+   i pp --
+.3 | j eq 10 |
+-- vomit "j is 10"
+   i pp --
+.4
+-- vomit "j is greater than 10" --
+
+
+?? for loop
+
+.5 | wrap k as 0 : k let 10 : k pp |
+-- vomit k --
+
+
+?? while loop
+
+wrap l as 1
+.6 | k eq 1 |
+-- vomit l
+   exit() --
+
