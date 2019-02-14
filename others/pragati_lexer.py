@@ -27,10 +27,10 @@ def lex(filecontents):
                         print("Token:",tok,"  Category: Beginning of vomit")
                         hyp=1
                     else:
-                        print("Token:",tok,"  Category:End of vomit")	
+                        print("Token:",tok,"  Category:End of vomit")
                 else:
                     if tok.isalpha():
-                        print("Token:",tok,"  Category: Identifier")	
+                        print("Token:",tok,"  Category: Identifier")
 
 #print(keywords)
 #print(relop)
