@@ -1,4 +1,5 @@
 import re
+import os
 import sys
 from wordlist import switch
 from ll1 import Lexer
@@ -14,6 +15,7 @@ def nocomments(filename):
     code_w_comments = open(filename).read()
     code_wo_comments = remove_comments(code_w_comments)
     #code_wo_comments = single(code_w_comments)
+    filename = os.path.basename(filename)
     fh = open("nocomments/" + filename + ".nocomments", "w")
     fh.write(str(code_wo_comments))
     fh.close()
