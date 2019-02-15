@@ -1,7 +1,7 @@
 import re
 import os
 import sys
-from wordlist import switch
+from wordlist import keywords
 from ll1 import Lexer
 from remove_comments import remove_comments
 
@@ -35,6 +35,5 @@ def lex(filename):
     lex = Lexer(contents)
     lex.tokenize()
 
-    data=switch.keys()
 
 

@@ -65,7 +65,7 @@ def remove_comments(text):
     s = '\n'.join(x for x in multi_list)
     final = '\n'.join([i for i in s.split('\n') if len(i) > 0])
 
-    print(final)
+    #print(final)
     return final
 
 
