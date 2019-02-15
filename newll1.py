@@ -32,7 +32,24 @@ class Lexer(object):
 					c=0	
 
 			# This will recognise a variable and create a token for it
-			elif word == "wrap": tokens.append([keywords[word], word])
+			elif word in keywords.values():
+				 tokens.append([keywords[word], word])
+			
+			#This will recognise a word and create an identifier token for it
+			elif re.match('[a-z]', word) or re.match('[A-Z]', word):
+				tokens.append(['IDENTIFIER', word])
+
+			#This will recognise an integer and create an identifier token for it
+			elif re.match('[0-9]', word):
+				tokens.append(['INTEGER ', word])
+
+
+			#This will recognise operators
+			elif word in "%/*-+":
+				tokens.append(['OPERATOR',word])
+
+
+			'''elif word == "wrap": tokens.append([keywords[word], word])
 			# This will recognise an assignment operator
 			elif word == "as" : tokens.append(["ASSIGNMENT", word])
 
@@ -98,21 +115,7 @@ class Lexer(object):
 			elif word == ".6": tokens.append([keywords[word], word])
 
 			#This is for do condition
-			elif word == ".7": tokens.append([keywords[word], word])
-
-			#This will recognise a word and create an identifier token for it
-			elif re.match('[a-z]', word) or re.match('[A-Z]', word):
-				tokens.append(['IDENTIFIER', word])
-
-			#This will recognise an integer and create an identifier token for it
-			elif re.match('[0-9]', word):
-				tokens.append(['INTEGER ', word])
-
-
-			#This will recognise operators
-			elif word in "%/*-+":
-				tokens.append(['OPERATOR',word])
-
+			elif word == ".7": tokens.append([keywords[word], word])'''
 
 
 
