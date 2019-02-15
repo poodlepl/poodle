@@ -1,17 +1,8 @@
-
 vomit "hello world"
-
-
-
-
-
 wrap i as 0
 .2 | i let 10 |
 -- vomit i
    i pp --
-
-
-
 wrap j as 0
 .2 | j let 10 |
 -- vomit i
@@ -21,16 +12,9 @@ wrap j as 0
    i pp --
 .4
 -- vomit "j is greater than 10" --
-
-
-
 .5 | wrap k as 0 : k let 10 : k pp |
 -- vomit k --
-
-
-
 wrap l as 1
 .6 | k eq 1 |
 -- vomit l
    exit() --
-

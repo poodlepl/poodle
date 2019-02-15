@@ -45,6 +45,8 @@ def remove_comments(text):
 
 
     p = r'/\*[^*]*\*+([^/*][^*]*\*+)*/|("(\\.|[^"\\])*"|\'(\\.|[^\'\\])*\'|.[^/"\'\\]*)'
+
+
     multi_str = ''.join(m.group(2) for m in re.finditer(p, text, re.M|re.S) if m.group(2))
     #print(ret_str)
 
@@ -58,12 +60,13 @@ def remove_comments(text):
             multi_list.remove(sentence)
 
     #print(multi_list)
-    print(single)
+    #print(single)
 
     s = '\n'.join(x for x in multi_list)
+    final = '\n'.join([i for i in s.split('\n') if len(i) > 0])
 
-    #print(s)
-    return s
+    print(final)
+    return final
 
 
 
@@ -84,6 +87,21 @@ def remove_comments(text):
             print("text is: " + m.group() + "indices are: " + str(m.span()))
 
     print(m)
+'''
+
+
+
+'''
+# save comments in another file : FAILED
+
+for m in re.finditer(p, text, re.M|re.S):
+    if m.group():
+        print("text is: " + m.group() + "indices are: " + str(m.span()))
+
+print(m)
+for m in re.finditer(p, text, re.M|re.S):
+    print(m)
+    print("text : " + "%r"%m.group() + "indices are : " + str(m.span()))
 '''
 
 
