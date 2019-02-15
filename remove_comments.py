@@ -42,6 +42,53 @@ def remove_comments(text):
              [^/"'\\]*      ##  Chars which doesn't start a comment, string
            )                ##    or escape
     """
+
+
+    p = r'/\*[^*]*\*+([^/*][^*]*\*+)*/|("(\\.|[^"\\])*"|\'(\\.|[^\'\\])*\'|.[^/"\'\\]*)'
+    multi_str = ''.join(m.group(2) for m in re.finditer(p, text, re.M|re.S) if m.group(2))
+    #print(ret_str)
+
+    multi_list = multi_str.split('\n')
+    #print(multi_list)
+
+    single = []
+    for sentence in multi_list:
+        if sentence.startswith('??'):
+            single.append(sentence)
+            multi_list.remove(sentence)
+
+    #print(multi_list)
+    print(single)
+
+    s = '\n'.join(x for x in multi_list)
+
+    #print(s)
+    return s
+
+
+
+
+'''
+    pr = re.compile(r'\?\?[^\n\r]+?(?:\*\)|[\n\r])')
+    ss = pr.search(ret_str)
+    print(ss)
+    final = ''.join(m.group() for m in pr.finditer(ret_str) if m.group())
+    print(final)
+'''
+
+
+# list comprehension explained
+'''
+    for m in pr.finditer(text):
+        if m.group():
+            print("text is: " + m.group() + "indices are: " + str(m.span()))
+
+    print(m)
+'''
+
+
+# multi line comment explained
+'''
     regex = re.compile(pattern, re.VERBOSE|re.MULTILINE|re.DOTALL)
     noncomments_multi = [m.group(2) for m in regex.finditer(text) if m.group(2)]
 
@@ -50,6 +97,10 @@ def remove_comments(text):
     print(partial)
 
     return partial
+'''
+
+
+
 '''
     single_line_pattern = r"""
             ^\?\?[ a-z]*
@@ -68,7 +119,6 @@ def remove_comments(text):
         print(m)
     print("Done single")
 '''
-
 
 
 
