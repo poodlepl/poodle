@@ -1,0 +1,9 @@
+j as 0
+.2 | j let 10 |
+-- vomit i
+   i pp --
+.3 | j eq 10 |
+-- vomit "j is 10"
+   i pp --
+.4
+-- vomit "j is greater than 10" --

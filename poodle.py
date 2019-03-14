@@ -3,7 +3,8 @@
 #from sys import *
 from docopt import docopt
 from glob import glob
-from lex import lex
+#from modules.lexer import lex
+from modules.lex import lex
 
 usage = '''
 
