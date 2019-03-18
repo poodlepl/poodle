@@ -1,6 +1,6 @@
 keywords = {
         ".5"        : "FOR[ITERATION]",
-        "wrap"      : "KEYWORD\t",
+        "wrap"      : "KEYWORD",
         "as"        : "KEYWORD[ASSIGNMENT]",
         "let"       : "KEYWORD[RELOP]",
         "pp"        : "INCRE[RELOP]",
@@ -23,7 +23,7 @@ keywords = {
 	"$$"        : "OR OPERATOR",
 	"&&"        : "AND OPERATOR",
 	".4"        : "ELSE[SELECTION]",
-	".6"        : "WHILE\t",
+	".6"        : "WHILE",
 	".7"        : "DO[CONDITION]",
 	":"         : "SEPERATOR"
         }
