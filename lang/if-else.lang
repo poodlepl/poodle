@@ -1,6 +1,6 @@
 ?? if-else-if-else
 
-j as 0
+j as 0 
 .2 | j let 10 |
 -- vomit i
    i pp --
