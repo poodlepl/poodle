@@ -2,6 +2,7 @@ import re
 import os
 import sys
 import pprint
+from modules.symbol import *
 from modules.wordlist import *
 from modules.remove_comments import remove_comments
 
@@ -57,6 +58,8 @@ class Lexer:
         operators=["+","-","*","/","%"]
         c=0
         temp_str = ""
+        line_num = 1
+        char_at = 0
         while self.current_char != None:
             if c==1:
                 if temp_str.endswith('"'):
@@ -68,8 +71,14 @@ class Lexer:
                 else:
                    temp_str+=self.current_char
                    self._move_next()
-                
+
             elif self.current_char == '\n' or self.current_char == ' ':
+                if (self.current_char == '\n'):
+                    line_num += 1
+                    print(char_at)
+                    char_at = 0
+                if (self.current_char == ' '):
+                    char_at += 1
                 # This will recognise a variable and create a token for it
                 if temp_str in keywords.keys():
                     #print("About to append1",temp_str)
@@ -86,6 +95,8 @@ class Lexer:
                 elif re.match('[a-z]', temp_str) or re.match('[A-Z]', temp_str):
                     #print("About to append2",temp_str)
                     tokens.append(Token('IDENTIFIER', temp_str))
+                    pos = char_at - len(temp_str)
+                    sym = symbol(temp_str, pos, line_num)
                     self._move_next()
                     temp_str = ""
 
@@ -101,7 +112,7 @@ class Lexer:
                     #print("About to append4",temp_str)
                     tokens.append(Token('OPERATOR', temp_str))
                     self._move_next()
-                    temp_str = "" 
+                    temp_str = ""
                 elif temp_str.startswith('"'):
                     c=1
                 else:
@@ -114,8 +125,9 @@ class Lexer:
                 temp_str += self.current_char
                 #print(" temp",temp_str)
                 self._move_next()
+                char_at += 1
         tokens.append(Token(keywords[temp_str], temp_str))
-        return tokens
+        return tokens, sym
 
 def nocomments(filename):
     filename = sys.argv[2]
@@ -141,5 +153,8 @@ def lex(filename):
     print("Code without comments\n")
     print(contents+'\n')
     lex = Lexer(contents)
-    pp.pprint(lex.tokenize())
-
+    token_stream, symbol = lex.tokenize()
+    for k,v in symbol.items():
+        print(k,v)
+    pp.pprint(token_stream)
+    return token_stream

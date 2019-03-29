@@ -5,6 +5,8 @@ from docopt import docopt
 from glob import glob
 #from modules.lexer import lex
 from modules.lex import lex
+from modules.parser import parse
+
 
 usage = '''
 
@@ -47,7 +49,8 @@ elif args['--source']:
     source = args['<filename>']
     try:
         data = open_file(source)
-        lex(data)
+        tokens = lex(data)
+        parse(tokens)
     except AttributeError:
         print("ERROR: "+source+" is not a valid file. ")
 

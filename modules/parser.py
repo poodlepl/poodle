@@ -1,4 +1,9 @@
-from modules.lex import tokens
+from modules.lex import *
+import pprint
 
 
-print(tokens)
+pp = pprint.PrettyPrinter(indent = 4)
+
+def parse(tokens):
+    print("\nPARSING ... \n")
+    pp.pprint(tokens)

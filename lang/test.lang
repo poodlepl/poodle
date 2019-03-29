@@ -1,5 +1,7 @@
 /*this is a multi-line comment*/
-vomit "hello world"
+wrap i as 12
+vomit "hello"
+vomit "world"
 
 
 ?? this is a single line comment
@@ -10,7 +12,8 @@ vomit "hello world"
 wrap i as 0
 .2 | i let 10 |
 -- vomit i
-   i pp --
+   vomit "helloo"
+   cdcd pp --
 
 
 ?? if-else-if-else
