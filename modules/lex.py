@@ -75,7 +75,7 @@ class Lexer:
             elif self.current_char == '\n' or self.current_char == ' ':
                 if (self.current_char == '\n'):
                     line_num += 1
-                    print(char_at)
+                    #print(char_at)
                     char_at = 0
                 if (self.current_char == ' '):
                     char_at += 1
