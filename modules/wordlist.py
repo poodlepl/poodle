@@ -25,7 +25,8 @@ keywords = {
 	".4"        : "ELSE[SELECTION]",
 	".6"        : "WHILE",
 	".7"        : "DO[CONDITION]",
-	":"         : "SEPERATOR"
+	":"         : "SEPERATOR",
+        "exit()"    : "EXIT LOOP"
         }
 
 '''

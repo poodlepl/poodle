@@ -13,12 +13,12 @@ DIGITS = '0123456789'
 
 class Token:
     def __init__(self, type_, value=None):
-        self.type = type_
+        self.type_ = type_
         self.value = value
     def __repr__(self):
         if self.value:
-            return f'{self.type}:{self.value}'
-        return f'{self.type}'
+            return f'{self.type_}:{self.value}'
+        return f'{self.type_}'
 
 class Lexer:
     def __init__(self, text):
@@ -96,7 +96,7 @@ class Lexer:
                     #print("About to append2",temp_str)
                     tokens.append(Token('IDENTIFIER', temp_str))
                     pos = char_at - len(temp_str)
-                    sym = symbol(temp_str, pos, line_num)
+                    sym = symbol_(temp_str, pos, line_num)
                     self._move_next()
                     temp_str = ""
 
@@ -117,7 +117,7 @@ class Lexer:
                     c=1
                 else:
                     if temp_str not in "":
-                        print('ERROR: temp_str: '+temp_str)
+                        print('ERROR: Unexpected Character : '+temp_str)
                     temp_str=""
                     self._move_next()
 
