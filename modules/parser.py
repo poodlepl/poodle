@@ -1,10 +1,13 @@
 from modules.lex import *
 import pprint
+import operator
 import sys
 import tokenize
 from modules.symbol import *
 
 
+left_val = right_val = -1
+cond = -1
 flag = -1
 symbolTable, inp_list = None, None
 in_if=0
@@ -57,6 +60,7 @@ def parse(tokens):
                 print(code)
             elif next_==".6":
                 while_()
+                print(code)
             elif next_==".2":
                 if_loop()
                 print(code)
@@ -89,7 +93,7 @@ def Statement():
                 symbol_(identi,value=next_,size=size)
         else:
             i=i-1
-                
+
     else:
         return
 
@@ -117,7 +121,7 @@ def print_():
     temp_count+=1
     next_,type_=getNextToken()
     code[temp_count].append([next_])
-    
+
 def if_loop():
     print("IN IF LOOP")
     global code,i,temp_count,in_if
@@ -147,38 +151,99 @@ def if_loop():
 
 
 def while_():
-    global flag
+    global flag, left_val, right_val, cond
     next_, type_ = getNextToken()
     op_pipe = next_
     if op_pipe == '|':
         Condition()
 
         if (flag == 0):
-            print('Condition Failed. Exit Loop')
-            pass
+            print('Condition Failed. But still need to check syntax.')
+            afterCondition()
 
-        elif (flag == 1):
-            next_, type_ = getNextToken()
-            cl_pipe = next_
-            if cl_pipe == '|':
-                print("While condition passed")
-            else:
-                print("SYNTAX ERROR: Expected \'|\'")
+        else:
+            # TODO
+            # Check TODO.
+            while flag != 1:
+                afterCondition()
+                if cond(left_val, right_val):
+                    print("Continue while loop because left is " + left_val)
+                else:
+                    print("Left value does not satisfy the condition on the right value. Append in the symbol table now.")
+                    # TODO
+                    # exit while loop
 
-        #TODO
-        # add end here
     else:
         print("ERROR: Missing opening bracket.")
 
+def afterCondition():
+    next_, type_ = getNextToken()
+    cl_pipe = next_
+    if cl_pipe == '|':
+
+        next_, type_ = getNextToken()
+        op_par = next_
+
+        if op_par == '--' :
+            next_, type_ = getNextToken()
+            stat = next_
+
+            if stat == 'vomit':
+                #print_()
+                next_, type_ = getNextToken()
+                right_stat = type_
+
+                if right_stat == 'IDENTIFIER':
+                    next_, type_ = getNextToken()
+                    exit_val = type_
+
+                    # TODO
+                    # Check TODO
+                    if exit_val == 'EXIT LOOP':
+                        next_, type_ = getNextToken()
+                        clos_par = next_
+
+                        if clos_par == '---':
+                            print('WHILE ENDED SUCCESSFULLY')
+
+                        else:
+                            print('SYNTAX ERROR: Invalid SYNTAX: Expected \'---\'')
+                            # TODO
+                            # exit the while loop only
+                    else:
+                        print('SYNTAX ERROR: Invalid SYNTAX: Expected \'exit()\'')
+                        # TODO
+                        # exit the while loop only
+                else:
+                    print('SYNTAX ERROR: Invalid SYNTAX: Expected \'IDENTIFIER\'')
+                    # TODO
+                    # exit the while loop only
+            else:
+                print('SYNTAX ERROR: \'Invalid SYNTAX\'')
+                # TODO
+                # exit the while loop only
+        else:
+            print('SYNTAX ERROR: Expected \'--\'')
+            # TODO
+            # exit the while loop only
+
+    else:
+        print("SYNTAX ERROR: Expected \'|\'")
+        # TODO
+        # exit the while loop only
+
 def Condition():
-    global flag
+    global flag, left_val, right_val, cond
     left, l_type_ = getNextToken()
     left_id = left
     l_val = int(sym_tab[left_id][0])
     if l_type_ == 'IDENTIFIER':
         oper, op_type_ = getNextToken()
 
+        code.append([oper])
+        #print(code)
         if oper == 'eq':
+            cond = operator.eq
             right, r_type_ = getNextToken()
             if r_type_ == 'IDENTIFIER':
                 r_val = int(sym_tab[right][0])
@@ -186,8 +251,11 @@ def Condition():
                     print('ERROR: Invalid types. Equality cannot be done on ' + type(l_type_)+' and ' + type(r_type_))
                 else:
                     r_val = int(r_val)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val == r_val:
-                        print("Equal")
+                        print("CONDITION PASSED: Equality")
                         flag = 1
                     else:
                         #print("Not Equal")
@@ -195,15 +263,18 @@ def Condition():
             else:
                 if r_type_ == 'INTEGER':
                     r_val = int(right)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val == r_val:
-                        print("Equal")
+                        print("CONDITION PASSED: Equality")
                         flag = 1
                     else:
                         #print("Not Equal")
                         flag = 0
 
         elif oper == 'neq':
-
+            cond = operator.ne
             right, r_type_ = getNextToken()
             if r_type_ == 'IDENTIFIER':
                 r_val = int(sym_tab[right][0])
@@ -211,8 +282,11 @@ def Condition():
                     print('ERROR: Invalid types. Equality cannot be done on ' + type(l_type_)+' and ' + type(r_type_))
                 else:
                     r_val = int(r_val)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val != r_val:
-                        print("Not Equal")
+                        print("CONDITION PASSED: Not Equal")
                         flag = 1
                     else:
                         #print("Not Equal")
@@ -220,14 +294,17 @@ def Condition():
             else:
                 if r_type_ == 'INTEGER':
                     r_val = int(right)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val != r_val:
-                        print("Not Equal")
+                        print("CONDITION PASSED: Not Equal")
                         flag = 1
                     else:
                         #print("Not Equal")
                         flag = 0
         elif oper == 'let':
-
+            cond = operator.lt
             right, r_type_ = getNextToken()
             if r_type_ == 'IDENTIFIER':
                 r_val = int(sym_tab[right][0])
@@ -235,8 +312,11 @@ def Condition():
                     print('ERROR: Invalid types. Equality cannot be done on ' + type(l_type_)+' and ' + type(r_type_))
                 else:
                     r_val = int(r_val)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val < r_val:
-                        print("Less than")
+                        print("CONDITION PASSED: Less than")
                         flag = 1
                     else:
                         #print("Not Equal")
@@ -244,14 +324,17 @@ def Condition():
             else:
                 if r_type_ == 'INTEGER':
                     r_val = int(right)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val < r_val:
-                        print("Less than")
+                        print("CONDITION PASSED: Less than")
                         flag = 1
                     else:
                         #print("Not Equal")
                         flag = 0
         elif oper == 'lete':
-
+            cond = operator.le
             right, r_type_ = getNextToken()
             if r_type_ == 'IDENTIFIER':
                 r_val = int(sym_tab[right][0])
@@ -259,8 +342,11 @@ def Condition():
                     print('ERROR: Invalid types. Equality cannot be done on ' + type(l_type_)+' and ' + type(r_type_))
                 else:
                     r_val = int(r_val)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val <= r_val:
-                        print("Less than Equal")
+                        print("CONDITION PASSED: Less than Equal")
                         flag = 1
                     else:
                         #print("Not Equal")
@@ -268,14 +354,17 @@ def Condition():
             else:
                 if r_type_ == 'INTEGER':
                     r_val = int(right)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val <= r_val:
-                        print("Less than Equal")
+                        print("CONDITION PASSED: Less than Equal")
                         flag = 1
                     else:
                         #print("Not Equal")
                         flag = 0
         elif oper == 'get':
-
+            cond = operator.gt
             right, r_type_ = getNextToken()
             if r_type_ == 'IDENTIFIER':
                 r_val = int(sym_tab[right][0])
@@ -283,8 +372,11 @@ def Condition():
                     print('ERROR: Invalid types. Equality cannot be done on ' + type(l_type_)+' and ' + type(r_type_))
                 else:
                     r_val = int(r_val)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val > r_val:
-                        print("Greater")
+                        print("CONDITION PASSED: Greater")
                         flag = 1
                     else:
                         #print("FAIL")
@@ -292,23 +384,30 @@ def Condition():
             else:
                 if r_type_ == 'INTEGER':
                     r_val = int(right)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val > r_val:
-                        print("Greater")
+                        print("CONDITION PASSED: Greater")
                         flag = 1
                     else:
                         #print("FAIL")
                         flag = 0
         elif oper == 'gete':
-
+            cond = operator.ge
             right, r_type_ = getNextToken()
             if r_type_ == 'IDENTIFIER':
                 r_val = int(sym_tab[right][0])
+
                 if r_val == -1:
                     print('ERROR: Invalid types. Equality cannot be done on ' + type(l_type_)+' and ' + type(r_type_))
                 else:
                     r_val = int(r_val)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val >= r_val:
-                        print("Greater than Equal")
+                        print("CONDITION PASSED: Greater than Equal")
                         flag = 1
                     else:
                         #print("FAIL")
@@ -316,8 +415,11 @@ def Condition():
             else:
                 if r_type_ == 'INTEGER':
                     r_val = int(right)
+                    left_val = l_val
+                    right_val = r_val
+                    code.append([[left] + [right]])
                     if l_val >= r_val:
-                        print("Greater than Equal")
+                        print("CONDITION PASSED: Greater than Equal")
                         flag = 1
                     else:
                         #print("FAIL")
