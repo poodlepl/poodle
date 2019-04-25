@@ -1,6 +1,13 @@
 # Poodle Programming Language
 
-### How to run
+[CONTRIBUTING](CONTRIBUTING.md)
 
-`chmod +x poodle.py`   
-`./poodle.py <filename>.poo`
+
+### How to run the compiler
+
+`python3 poodle.py`                                 - shows help menu   
+`python3 poodle.py --source lang/test.lang`         - runs the compiler on test.lang   
+
+
+Code snippets coming soon.
+
