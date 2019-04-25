@@ -26,7 +26,9 @@ keywords = {
 	".6"        : "WHILE",
 	".7"        : "DO[CONDITION]",
 	":"         : "SEPERATOR",
-        "exit()"    : "EXIT LOOP"
+    "True"      : "BOOL TRUE",
+    "False"     : "BOOL FALSE",
+    "exit()"    : "EXIT LOOP"
         }
 
 '''
