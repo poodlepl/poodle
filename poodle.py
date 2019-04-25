@@ -51,6 +51,8 @@ elif args['--source']:
         parse(tokens)
         for k,v in ast.items():
             print(v)
+        table = PrettyTable()
+        table.field_names = ["IDENTIFIER","VALUE", "POSITION", "LINE", "SIZE", "TOKEN TYPE"]
         for k,v in sym_tab.items():
             sym= [k]+v
             table.add_row(sym)

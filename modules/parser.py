@@ -10,7 +10,7 @@ left_val = right_val = -1
 cond = -1
 flag = -1
 symbolTable, inp_list = None, None
-in_if=0
+in_if=-1
 temp_count = -1
 label_count = 1
 i = 0
