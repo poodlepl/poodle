@@ -164,7 +164,7 @@ def lex(filename):
     token_stream, symbol = lex.tokenize()
 
     table = PrettyTable()
-    table.field_names = ["IDENTIFIER","VALUE", "POSITION", "LINE", "SIZE"]
+    table.field_names = ["IDENTIFIER","VALUE", "POSITION", "LINE", "SIZE", "TOKEN TYPE"]
     for k,v in symbol.items():
             sym= [k]+v
             table.add_row(sym)
