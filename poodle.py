@@ -9,6 +9,7 @@ from modules.wordlist import *
 from modules.remove_comments import remove_comments
 
 
+
 usage = '''
 
 Poodle Programming Language
@@ -49,7 +50,7 @@ elif args['--source']:
                 table.add_row(sym)
         print(table)
         parse(tokens)
-        for k,v in ast.items():
+        for k,v in ast.items():            
             print(v)
         table = PrettyTable()
         table.field_names = ["IDENTIFIER","VALUE", "POSITION", "LINE", "SIZE", "TOKEN TYPE"]
