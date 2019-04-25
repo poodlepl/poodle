@@ -5,6 +5,9 @@ import pprint
 from modules.symbol import *
 from modules.wordlist import *
 from modules.remove_comments import remove_comments
+from prettytable import PrettyTable
+pp = pprint.PrettyPrinter(indent = 4)
+
 
 
 pp = pprint.PrettyPrinter(indent = 4)
@@ -101,12 +104,16 @@ class Lexer:
                     temp_str = ""
 
                 #This will recognise an integer and create an identifier token for it
+                elif re.match('[0-9].[0-9]', temp_str):
+                    #print("About to append3",temp_str)
+                    tokens.append(Token('FLOAT', temp_str))
+                    self._move_next()
+                    temp_str = ""
                 elif re.match('[0-9]', temp_str):
                     #print("About to append3",temp_str)
                     tokens.append(Token('INTEGER', temp_str))
                     self._move_next()
                     temp_str = ""
-
                 #This will recognise operators
                 elif temp_str in operators:
                     #print("About to append4",temp_str)
@@ -152,9 +159,16 @@ def lex(filename):
     contents = nocomments(filename)
     print("Code without comments\n")
     print(contents+'\n')
+
     lex = Lexer(contents)
     token_stream, symbol = lex.tokenize()
+
+    table = PrettyTable()
+    table.field_names = ["IDENTIFIER","VALUE", "POSITION", "LINE", "SIZE"]
     for k,v in symbol.items():
-        print(k,v)
+            sym= [k]+v
+            table.add_row(sym)
+    print(table)
+
     pp.pprint(token_stream)
     return token_stream
