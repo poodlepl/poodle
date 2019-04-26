@@ -17,7 +17,7 @@ i = 0
 code = []
 ast={}
 in_elif=-1
-cond=0
+ifcond=0
 def getNextToken():
     global i
     if i==len(inp_list):
@@ -37,7 +37,7 @@ def token_exists():
 def parse(tokens):
 
 
-    global symbolTable, inp_list,code,temp_count,in_if,label_count
+    global symbolTable, inp_list,code,temp_count,in_if,label_count,ifcond
     inp_list=tokens
     symbolTable=sym_tab
 
@@ -75,14 +75,13 @@ def parse(tokens):
                 #print("AST:")
                 #print(code)
             elif (next_==".3"):
-                if(cond==0):
-                    else_part()
-                else:
-                    print("Else part without any if")
+                ifelse_part()
+            elif (next_==".4"):
+                else_part()
                 
             elif next_=="---":
                 in_if=0   
-                cond=0
+                ifcond=0
                 ast[label_count]=code
                 temp_count=-1
                 code=[]
@@ -94,21 +93,28 @@ def parse(tokens):
         temp_count=-1
         code=[]
         label_count=label_count+1
-    if(in_if!=0):
+    if(in_if==1):
         print(next_)
         print('SYNTAX ERROR: Invalid SYNTAX: Expected \'---\', still inside if loop')
 
 def else_part():
+    global code,i,temp_count,in_if,flag,ifcond
+    i=i-1
+    next_,type_=getNextToken()
+    code.append(next_)
+    temp_count+=1
+    
+def ifelse_part():
     #global i, temp_count, code
     print("IN ELIF LOOP")
-    global code,i,temp_count,in_if,flag
+    global code,i,temp_count,in_if,flag,ifcond
     i=i-1
     next_,type_=getNextToken()
     code.append(next_)
     temp_count+=1
     next_,type_=getNextToken()
     if(next_=='|'):
-        Condition()   
+        Condition()
         if flag==1:
         #if cond():
             next_,type_=getNextToken()
@@ -118,21 +124,13 @@ def else_part():
                     temp_count=temp_count+1
                     code.append("(then)")
                     in_if=1
-                    cond=1
+                    
                 else:
                     print("Wrong brackets")
             else:
                 print("SYNTAX ERROR: Expected \'|\'")
         else:
             print("Condition not satisfied")
-            while(next_!= '--' or next_!='---'):
-                next_,type_=getNextToken()
-            if(next_== '--'):
-                next_,type_=getNextToken()
-                if(next_ =='.3' or next_=='.4'):
-                    i=i-1
-                else:
-                    print("Bracket not closed properly")
     
 
 def Statement():
@@ -190,7 +188,7 @@ def print_():
     
 def if_loop():
     print("IN IF LOOP")
-    global code,i,temp_count,in_if,flag
+    global code,i,temp_count,in_if,flag,ifcond
     i=i-1
     next_,type_=getNextToken()
     code.append(next_)
@@ -212,14 +210,7 @@ def if_loop():
                 print("SYNTAX ERROR: Expected \'|\'")
         else:
             print("Condition not satisfied")
-            while(next_!= '--' or next_!='---'):
-                next_,type_=getNextToken()
-            if(next_== '--'):
-                next_,type_=getNextToken()
-                if(next_ =='.3' or next_=='.4'):
-                    i=i-1
-                else:
-                    print("Bracket not closed properly")
+           
             
 def while_():
     global flag, left_val, right_val, cond
@@ -235,7 +226,7 @@ def while_():
         else:
             # TODO
             # Check TODO.
-            while flag != 1:
+            while flag == 1:
                 afterCondition()
                 if cond(left_val, right_val):
                     print("Continue while loop because left is " + left_val)

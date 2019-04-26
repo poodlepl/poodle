@@ -2,4 +2,4 @@ wrap l as 10
 wrap k as 1
 .6 | k eq 1 |
 - vomit l
-   exit() --
+   exit() ---
